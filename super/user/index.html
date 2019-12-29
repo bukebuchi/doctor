@@ -30,7 +30,9 @@
 <div style="position: absolute; left: 2%; top: 2%;">
     <button class="btn btn-default" id="tagsManage">标签管理</button>
 </div>
-
+<div style="position: absolute; right: 1%; top: 94%;">
+    <button class="btn btn-default" id="backmain">返回前端显示</button>
+</div>
 <div id="RailingInfo" style="position: absolute; right: 2%; top: 17%; display: none">
 </div>
 
@@ -452,7 +454,7 @@
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
-                    url: "http://track.ubitraq.com:8082/history/list?mapId=4&tagMacs%5B%5D=" + "58010000" + time,
+                    url: "http://track.ubitraq.com:8082/history/list?mapId=10&tagMacs%5B%5D=" + "58010000" + time,
                     success: function (result) {
                         //window.alert(result.toString());
                         var pathlength = result["101"].paths.length;
@@ -475,7 +477,7 @@
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
-                    url: "http://track.ubitraq.com:8082/history/list?mapId=4&tagMacs%5B%5D=" + "72020000" + time,
+                    url: "http://track.ubitraq.com:8082/history/list?mapId=10&tagMacs%5B%5D=" + "72020000" + time,
                     success: function (result) {
                         //window.alert(result.toString());
                         var pathlength = result["596"].paths.length;
@@ -498,7 +500,7 @@
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
-                    url: "http://track.ubitraq.com:8082/history/list?mapId=4&tagMacs%5B%5D=" + "73020000" + time,
+                    url: "http://track.ubitraq.com:8082/history/list?mapId=10&tagMacs%5B%5D=" + "73020000" + time,
                     success: function (result) {
                         //window.alert(result.toString());
                         var pathlength = result["597"].paths.length;
@@ -521,7 +523,7 @@
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
-                    url: "http://track.ubitraq.com:8082/history/list?mapId=4&tagMacs%5B%5D=" + "74020000" + time,
+                    url: "http://track.ubitraq.com:8082/history/list?mapId=10&tagMacs%5B%5D=" + "74020000" + time,
                     success: function (result) {
                         //window.alert(result.toString());
                         var pathlength = result["585"].paths.length;
@@ -561,7 +563,10 @@
                 isShown = true;
             }
         });
-
+        $("#backmain").on('click', function() {
+            window.location.href='../../map/map2d/svg/';
+           
+        });
         function initRailing() {
 
             $.ajax({

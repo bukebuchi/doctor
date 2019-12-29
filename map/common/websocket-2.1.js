@@ -140,7 +140,7 @@ function webSocketInit(model, realLength, methods, types) {
     }
     function onmessage (event){
         try {
-          
+            //console.log(event);
             var data;
             try{
                 data = JSON.parse(event.data);

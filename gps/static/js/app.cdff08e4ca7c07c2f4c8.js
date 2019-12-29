@@ -732,8 +732,8 @@ webpackJsonp([1], {
                             layers: [this.layera1, this.layera2, this.layerb1, this.layerb2, this.taglayer],
                             target: document.getElementById("map"),
                             view: new g.a({
-                                center: Object(w.i)([116.4, 39.9], "EPSG:4326", "EPSG:3857"),
-                                zoom: 14,
+                                center: Object(w.i)([106.455475,29.551064], "EPSG:4326", "EPSG:3857"),
+                                zoom: 13,
                                 minZoom: 3,
                                 maxZoom: 18
                             })

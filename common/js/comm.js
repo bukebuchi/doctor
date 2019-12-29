@@ -695,7 +695,7 @@ var UBIT = {
             }
         },
 
-        enable3d: false,
+        enable3d: true,
         enableCamera:true,   //是否显示摄像头
         enableAutoCamera:false,
         enableWall:true,   //是否显示围墙

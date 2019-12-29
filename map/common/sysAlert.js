@@ -95,19 +95,20 @@ var SysAlert = {
         // };
         data.fence = fence;
         data.alias = tag ? (tag.alias ? tag.alias : tag.code) : data.code;
-       
-        if(data.ftypeId=='1')
+       //console.log(data.fence.ftypeId);
+        if(data.fence.ftypeId=="1")
         {
              console.log('进入禁区');
-        }
-        var obj = new Object();
+             var obj = new Object();
         obj.code=data.code;
         obj.alias=data.alias;
-        
+         obj.ftypeId=data.fence.ftypeId;        
     
         var test=JSON.stringify(obj);
         console.log(test);
        ME.test.send(test);
+        }
+        
         
         // $.ajax({
         //     url: alerturl,
