@@ -1,62 +1,128 @@
 <!DOCTYPE html>
 <html lang="zh">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>精神病院安全管理系统</title>
-    <link rel="stylesheet" href="lib/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-<div id="fengMap"></div>
-
-<!--操作按钮-->
-<div class="operating">
-    <button class="btn btn-default" id="showHistoricalTrace">添加历史轨迹</button>
-    <button class="btn btn-default" id="deleteHistoricalTrace">删除历史轨迹</button>
-</div>
-
-<div id="tagsInfo" style="position: absolute; left: 2%; top: 10%; display: none">
-    <a href="javascript:void(0)" onclick="alert('手环3d88')">手环3d84</a><input type="checkbox" id="checkBox1"/><br/><br/>
-    <a href="javascript:void(0)" onclick="alert('手环3d85 ')">手环3d85   </a><input type="checkbox" id="checkBox2"/><br/><br/>
-    <a href="javascript:void(0)" onclick="alert('手环3d86')">手环3d86   </a><input type="checkbox" id="checkBox3"/><br/><br/>
-    <a href="javascript:void(0)" onclick="alert('手环3d87')">手环3d87   </a><input type="checkbox" id="checkBox4"/><br/><br/>
-    <a href="javascript:void(0)" onclick="alert('手环3d88')">手环3d88   </a><input type="checkbox" id="checkBox5"/><br/><br/>
-      <a href="javascript:void(0)" onclick="alert('手环3d89')">手环3d89   </a><input type="checkbox" id="checkBox6"/><br/><br/>
-</div>
-
-<div style="position: absolute; left: 2%; top: 2%;">
-    <button class="btn btn-default" id="tagsManage">标签管理</button>
-</div>
-
-<div style="position: absolute; right: 1%; top: 94%;">
-<button class="btn btn-default" id="backmain">
-    返回前端显示
-</button>
-</div>
-<div style="position: absolute; left: 32%; top: 2%;">
-<button class="btn btn-default" id="showanchor">
-    基站显示
-</button>
-</div>
-<div id="RailingInfo" style="position: absolute; right: 2%; top: 17%; display: none">
-</div>
-
-<div class="operating2">
-    <button class="btn btn-default" id="railingManage" style="display: block">电子围栏管理</button>
-    <button class="btn btn-default" id="addRailing" style="display: block">添加电子围栏</button>
-    <button class="btn btn-default" id="YesaddRailing" style="display: none">确定</button>
-    <button class="btn btn-default" id="NoaddRailing" style="display: none">取消</button>
-</div>
-
-<script src="lib/jquery-2.1.4.min.js"></script>
-<script src="lib/fengmap.min.js"></script>
-<script>
-    //获取版本号,设置title
-    document.title = 'UWB室内定位V' + fengmap.VERSION;
+    <head>
+        <meta charset="utf-8">
+            <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+                <meta content="width=device-width, initial-scale=1.0" name="viewport">
+                    <title>
+                        精神病院安全管理系统
+                    </title>
+                    <link href="lib/bootstrap.min.css" rel="stylesheet">
+                        <link href="css/style.css" rel="stylesheet">
+                        </link>
+                    </link>
+                </meta>
+            </meta>
+        </meta>
+    </head>
+    <body>
+        <div id="fengMap">
+        </div>
+        <!--操作按钮-->
+        <!-- <div class="operating">
+            <button class="btn btn-default" id="showHistoricalTrace">
+                添加历史轨迹
+            </button>
+            <button class="btn btn-default" id="deleteHistoricalTrace">
+                删除历史轨迹
+            </button>
+        </div> -->
+        <div id="tagsInfo" style="position: absolute; left: 2%; top: 10%; display: none">
+            <a href="javascript:void(0)" onclick="alert('手环3d85')">
+                手环3d85
+            </a>
+            <input id="checkBox1" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d86')">
+                手环3d86
+            </a>
+            <input id="checkBox2" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d87 ')">
+                手环3d87
+            </a>
+            <input id="checkBox3" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d88')">
+                手环3d88
+            </a>
+            <input id="checkBox4" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d89')">
+                手环3d89
+            </a>
+            <input id="checkBox5" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d8a')">
+                手环3d8a
+            </a>
+            <input id="checkBox6" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d8b')">
+                手环3d8b
+            </a>
+            <input id="checkBox7" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3be8')">
+                手环3be8
+            </a>
+            <input id="checkBox8" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3be9')">
+                手环3be9
+            </a>
+            <input id="checkBox9" type="checkbox"/>
+            <br/>
+            <br/>
+        </div>
+        <div style="position: absolute; left: 2%; top: 2%;">
+            <button class="btn btn-default" id="tagsManage">
+                标签管理
+            </button>
+        </div>
+        <div style="position: absolute; right: 1%; top: 94%;">
+            <button class="btn btn-default" id="backmain">
+                返回前端显示
+            </button>
+        </div>
+        <!-- <div style="position: absolute; left: 32%; top: 2%;">
+            
+        </div> -->
+        <div id="RailingInfo" style="position: absolute; right: 2%; top: 17%; display: none">
+        </div>
+        <div class="operating2">
+            <button class="btn btn-default" id="railingManage" style="display: block">
+                电子围栏管理
+            </button>
+            <button class="btn btn-default" id="showanchor">
+                基站显示
+            </button>
+            <button class="btn btn-default" id="toggleTheme">切换主题</button>
+            <button class="btn btn-default" id="addRailing" style="display: block">
+                添加电子围栏
+            </button>
+            <button class="btn btn-default" id="YesaddRailing" style="display: none">
+                确定
+            </button>
+            <button class="btn btn-default" id="NoaddRailing" style="display: none">
+                取消
+            </button>
+        </div>
+        <script src="lib/jquery-2.1.4.min.js">
+        </script>
+        <script src="lib/fengmap.min.js">
+        </script>
+        <script>
+            //获取版本号,设置title
+    document.title = '重庆精神病院管理系统' + fengmap.VERSION;
 
     //定义全局map变量
     var map;
@@ -76,7 +142,10 @@
     var webSocket2;
     var webSocket3;
     var webSocket4;
-
+    var webSocket5;
+    var webSocket6;
+    var webSocket7;
+    var webSocket8;
     //历史轨迹
     var mPoints = [];
     var isShown = false;
@@ -93,22 +162,24 @@
     var railingDeleteId = [];
     var uploadPoints;
     var isRailingInfoShown = false;
-
+//定义主题切换变量
+    var toggleFlag = 1;
 
     $(function() {
         map = new fengmap.FMMap({
             //渲染dom
             container: document.getElementById('fengMap'),
-    //          compassOffset:[20,20],          //初始指北针的偏移量，[左，上]
-    // compassSize: 48,                //指北针大小默认配置
+           compassOffset:[1200,0],          //初始指北针的偏移量，[左，上]
+            compassSize: 60,                //指北针大小默认配置
             //地图数据位置
-            mapServerURL: './data/' + fmapID,
+            mapServerURL: './data/tile/' + fmapID,
             //主题数据位置
             mapThemeURL: 'data/theme',
             //设置主题
             defaultThemeName: 'qianya',
             // 默认比例尺级别设置为20级
             defaultMapScaleLevel: 22,
+            tile:true,
             //开发者申请应用下web服务的key
             key: 'f29390c2ca1234b8cb7bc000fe86b048',
             //开发者申请应用名称
@@ -134,14 +205,36 @@
             layer = group.getOrCreateLayer('polygonMarker');
 
             API_TOKEN();
-
+           
+            //添加定位点标注，并设置定位点坐标为地图中心点
             //添加定位点标注，并设置定位点坐标为地图中心点
             map.rotateTo({
                 to: 0,           //设置角度
-                duration: .3,      //动画持续时间，默认为。3秒
+                duration: 10,      //动画持续时间，默认为。3秒
             });
+            //添加定位点标注，并设置定位点坐标为地图中心点
+            map.tiltTo({
+                to: 90,           //设置角度
+                duration: 10,      //动画持续时间，默认为。3秒
+            });
+            // map.compass.setBgImage('./image/compass_bg.png'); //设置背景图片
+            // map.compass.setFgImage('./image/compass_fg.png'); //设置前景图片
+            // map.showCompass = true;
+             // map.on('mapClickCompass', function () {
+             //                map.rotateTo({
+             //                    //设置角度
+             //                    to: 0,
 
-            //创建楼层(按钮型)，创建时请在地图加载后(loadComplete回调)创建。
+             //                    //动画持续时间，默认为。3秒
+             //                    duration: .3,
+             //                    callback: function () { //回调函数
+             //                        console.log('rotateTo complete!');
+             //                    }
+             //                })
+             //            });
+            //点击指北针事件, 使角度归0
+            
+                        //创建楼层(按钮型)，创建时请在地图加载后(loadComplete回调)创建。
             //不带单/双层楼层控制按钮,初始时只有1个按钮,点击后可弹出其他楼层按钮
             groupControl = new fengmap.buttonGroupsControl(map, ctlOpt);
 
@@ -176,7 +269,18 @@
             initLocationMarker();
 
         });
+// map.on('mapClickCompass', function () {
+//                             map.rotateTo({
+//                                 //设置角度
+//                                 to: 180,
 
+//                                 //动画持续时间，默认为。3秒
+//                                 duration: .3,
+//                                 callback: function () { //回调函数
+//                                     console.log('rotateTo complete!');
+//                                 }
+//                             })
+//                         });
         map.on('mapClickNode', function(event) {
             console.log('mapClickNode', event.eventInfo.coord);
             if(isAddingRailing) {
@@ -217,7 +321,10 @@
                 }
             }
         });
-
+            /**
+                 * 切换地图主题
+                 */
+             
         function initWebSocket (webSocketTemp,num) {
             webSocketTemp.onopen = function() {
                 //window.alert('nihao');
@@ -276,8 +383,10 @@
                             height: 0,
                         });
                         map.addLocationMarker(signalMarker);
-                        signalMarker.x = result[i].x/100 + map.minX;
+                        signalMarker.x = result[i].x/100 + map.minX+1;
                         signalMarker.y = map.maxY - result[i].y/100;
+                        // signalMarker.x = map.maxX-result[i].x/100-1;
+                        // signalMarker.y = result[i].y/100+map.minY;
                     }
                 },
                 error: function (msg) {
@@ -293,13 +402,7 @@
                 success: function (result) {
                     
                     for (var i = 0; i < result.length; i++) {
-                        var signalMarker = new fengmap.FMLocationMarker({
-                            url: 'image/signal.png',
-                            //设置图片显示尺寸
-                            size: 36,
-                            //设置图片高度，默认是5
-                            height: 0,
-                        });
+                        var signalMarker;
                      
                         signalMarker.x = result[i].x/100 + map.minX;
                         signalMarker.y = map.maxY - result[i].y/100;
@@ -319,9 +422,12 @@
                 new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
                 new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
                 new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                 new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
                 new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0})
             ]
-            isAdded = [false,false,false,false,false,false];
+            isAdded = [false,false,false,false,false,false,false,false,false];
         }
         //创建定位点标注
         function addLocationMarker(coord) {
@@ -392,7 +498,7 @@
         $("#checkBox1").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket0 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d84_2d" + stamp + api_token);
+                webSocket0 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d85_2d" + stamp + api_token);
                 initWebSocket(webSocket0,0);
                 if(isAdded[0] === false) {
                     map.addLocationMarker(mLocationMaker[0]);
@@ -407,7 +513,7 @@
         $("#checkBox2").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket1 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d85_2d" + stamp + api_token);
+                webSocket1 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d86_2d" + stamp + api_token);
                 initWebSocket(webSocket1,1);
             } else {
                 webSocket1.close();
@@ -416,7 +522,7 @@
         $("#checkBox3").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket2 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d86_2d" + stamp + api_token);
+                webSocket2 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d87_2d" + stamp + api_token);
                 initWebSocket(webSocket2,2);
             } else {
                 webSocket2.close();
@@ -425,7 +531,7 @@
         $("#checkBox4").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket3 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d87_2d" + stamp + api_token);
+                webSocket3 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d88_2d" + stamp + api_token);
                 initWebSocket(webSocket3,3);
             } else {
                 webSocket3.close();
@@ -434,7 +540,7 @@
         $("#checkBox5").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket4 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d88_2d" + stamp + api_token);
+                webSocket4 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d89_2d" + stamp + api_token);
                 initWebSocket(webSocket4,4);
             } else {
                 webSocket4.close();
@@ -443,13 +549,58 @@
          $("#checkBox6").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket5 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d8b_2d" + stamp + api_token);
+                webSocket5 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d8a_2d" + stamp + api_token);
                 initWebSocket(webSocket5,5);
             } else {
                 webSocket5.close();
             }
         });
+           $("#checkBox7").on('click',function() {
+            if(this.checked) {
+                var stamp = new Date().getTime();
+                webSocket6 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d8b_2d" + stamp + api_token);
+                initWebSocket(webSocket6,6);
+            } else {
+                webSocket6.close();
+            }
+        });
+              $("#checkBox8").on('click',function() {
+            if(this.checked) {
+                var stamp = new Date().getTime();
+                webSocket7 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003be8_2d" + stamp + api_token);
+                initWebSocket(webSocket7,7);
+            } else {
+                webSocket7.close();
+            }
+        });
+              $("#checkBox9").on('click',function() {
+            if(this.checked) {
+                var stamp = new Date().getTime();
+                webSocket8 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003be9_2d" + stamp + api_token);
+                initWebSocket(webSocket8,8);
+            } else {
+                webSocket8.close();
+            }
+        });
+    $("#toggleTheme").on('click', function() {
+             
+                    if (!map)return;
+                    //修改主题属性
+                    if (toggleFlag==1) {
+                        map.themeName = 'qianya';
+                        toggleFlag = 2;
+                    } 
+                    else if(toggleFlag==2) {
+                        map.themeName = '2001';
+                        toggleFlag = 3;
+                    }
+                    else
+                    {
+                         map.themeName = '2002';
+                        toggleFlag = 1;
+                    }
 
+               });
         //绘制线图层
         function drawLines(results) {
             //绘制部分
@@ -788,6 +939,7 @@
 
                     document.getElementById("btn"+railingId[num]).onclick = function () {
                         var mydiv = document.getElementById("RailingInfo");
+						mydiv.removeChild(document.getElementById(railingId[num]).nextSibling);
                         mydiv.removeChild(document.getElementById(railingId[num]));
                         mydiv.removeChild(document.getElementById("btn"+railingId[num]));
                     }
@@ -934,7 +1086,6 @@
         });
         
     });
-</script>
-</body>
-
+        </script>
+    </body>
 </html>

@@ -39,13 +39,26 @@ var SysAlert = {
         if (ME.vm.switchData.sound) {
             var audio = 'info.mp3';
             if (type == 'heartAlert') {
-                audio = 'danger.mp3';
+                audio = 'heart.mp3';
             } else if (type == 'sos') {
-                audio = 'error.mp3';
+                audio = 'sos.mp3';
+            } else if (type == 'powerAlert') {
+                audio = 'poweralert.mp3'
+
             } else if (type == 'forceRemove') {
-                audio = 'report.mp3';
+                audio = 'forceRemove.mp3';
+
+
             } else if (type == 'stillness') {
-                audio = 'report.mp3';
+                if(data.ftypeId=='100')
+                {
+                  audio = 'stillnessshower.mp3';  
+                }
+                else if(data.ftypeId=='101')
+                {
+                    audio = 'wc.mp3'; 
+                }
+                
             }
             var v = new Audio(SysAlert.audioPath + audio);
             v.play();
@@ -63,6 +76,11 @@ var SysAlert = {
             var tag = ME.vm.getTag(data);
             data.alias = tag ? (tag.alias ? tag.alias : tag.code) : data.code;
             ME[type][data.code] = data;
+            var forceRemove = new Object();
+            forceRemove.data=data;              
+            forceRemove.type=type;
+            var test=JSON.stringify(forceRemove);       
+            ME.test.send(test);
             SysAlert.notification(type, data);
         }
     },
@@ -78,6 +96,11 @@ var SysAlert = {
         if (!DataManager.isFenceTip(fence, data.isIn)) return;
         if (ME.vm.switchData.sound) {
             var audio = 'warning.mp3';
+            if(fence.ftypeId=='1')
+            {
+                audio = 'danger33.mp3';
+            }
+           
             if (fence && fence.type && fence.type.audio) audio = fence.type.audio;
             var v = new Audio(SysAlert.audioPath + audio);
             v.play();
@@ -101,13 +124,17 @@ var SysAlert = {
              console.log('进入禁区');
              var obj = new Object();
         obj.code=data.code;
-        obj.alias=data.alias;
-         obj.ftypeId=data.fence.ftypeId;        
+        obj.alias= data.alias;
+        obj.ftypeId=data.fence.ftypeId;
+        obj.type='fenceAlert';      
     
         var test=JSON.stringify(obj);
         console.log(test);
        ME.test.send(test);
         }
+        
+
+
         
         
         // $.ajax({
@@ -129,6 +156,7 @@ var SysAlert = {
         SysAlert.notification('fenceAlert', data);
         if (ME.projectCode === 'jiankongzhineng') { //临时使用,进入围栏30秒没有出来报警
             // console.log(data);
+
             if (data.isIn) {
                 if (intervalId) {
                     clearInterval(intervalId);
@@ -137,6 +165,32 @@ var SysAlert = {
                 intervalId = setTimeout(() => {
                     // console.log("告警,进入3秒未出")
                     data.temp = true;
+               var objalert = new Object();
+objalert.code=data.code;
+objalert.alias= data.alias;
+objalert.ftypeId=data.fence.ftypeId;
+                    if(fence.ftypeId=="100")
+                    {
+                    audio = 'stillnessshower.mp3'; 
+                    var v = new Audio(SysAlert.audioPath + audio);
+                    v.play();
+                    objalert.type='stillnessshower';  
+                    }
+
+                    if(fence.ftypeId=="101")
+                    {
+                    audio = 'wc.mp3'; 
+                    var v = new Audio(SysAlert.audioPath + audio);
+                    v.play();
+                    objalert.type='wc';
+                    }
+         
+            
+    
+        var testalert=JSON.stringify(objalert);
+        console.log(testalert);
+       ME.test.send(testalert);
+            
                     SysAlert.notification('fenceAlert', data);
                 }, 30000)
             } else {
@@ -184,7 +238,9 @@ var SysAlert = {
             ubiMap.drawStrLine('distanceAlert', goPoints, data.code + "_distanceAlert", ME.distanceAlertColor);
         }
     },
-    powerAlert: function() {},
+    powerAlert: function() {
+        SysAlert.normalAlert('powerAlert', data);
+    },
     updateHeartRate: function(data) {
         if (ubiMap.lockTag) return;
         if (!data.code) return;
@@ -275,6 +331,9 @@ var SysAlert = {
         } else if (type == 'heartAlert') {
             e.string += '<a href="' + url + '" target="blank"> "' + tag.alias + '" 心率异常报警,当前心率值: <b style="color:yellow;">' + tag.heartRate + ' </b> !!! ';
             e.string += "报警时间  " + g + "</br></a>"; //
+        }else if(type == 'powerAlert'){
+          e.string += '<a href="'+ url + '" target="blank"> "'+tag.alias+'" 低电量报警,当前电压值: <b style="color:yellow;">'+tag.heartRate+' </b> !!! ';
+            e.string += "报警时间  " + g + "</br></a>"; 
         } else if (type == 'moreMonitor') {
             // var monitorWhoBreak=monitor.moreMonitor.cname+lang['member']+monitor.moreMonitor.watchman;
             var monitorWhoBreak = tag.moreMonitor.cname + '成员' + tag.outlier;
@@ -400,7 +459,7 @@ function jqxNotificationInit() {
     });
     $("#aggregate_jqxNotification").jqxNotification({
         width: "auto",
-        position: "top-right",
+        position: "bottom-right",
         opacity: .9,
         // autoOpen: !1,
         // autoClose: !1,
@@ -409,7 +468,7 @@ function jqxNotificationInit() {
     });
     $("#stillness_jqxNotification").jqxNotification({
         width: "auto",
-        position: "top-right",
+        position: "bottom-right",
         opacity: .9,
         // autoOpen: !1,
         // autoClose: !1,
@@ -418,7 +477,7 @@ function jqxNotificationInit() {
     });
     $("#heartAlert_jqxNotification").jqxNotification({
         width: "auto",
-        position: "top-right",
+        position: "bottom-right",
         opacity: .9,
         autoOpen: !1,
         autoClose: !1,
@@ -436,7 +495,7 @@ function jqxNotificationInit() {
     });
     $("#distanceAlert_jqxNotification").jqxNotification({
         width: "auto",
-        position: "top-right",
+        position: "bottom-right",
         opacity: .9,
         autoOpen: !1,
         autoClose: !1,

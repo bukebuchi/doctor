@@ -14,17 +14,64 @@
 <div id="fengMap"></div>
 
 <!--操作按钮-->
-<div class="operating">
-    <button class="btn btn-default" id="showHistoricalTrace">添加历史轨迹</button>
-    <button class="btn btn-default" id="deleteHistoricalTrace">删除历史轨迹</button>
-</div>
+
 
 <div id="tagsInfo" style="position: absolute; left: 2%; top: 10%; display: none">
-    <a href="javascript:void(0)" onclick="alert('定位标签267')">定位标签267   </a><input type="checkbox" id="checkBox1"/><br/><br/>
-    <a href="javascript:void(0)" onclick="alert('定位标签158')">定位标签158   </a><input type="checkbox" id="checkBox2"/><br/><br/>
-    <a href="javascript:void(0)" onclick="alert('定位标签272')">定位标签272   </a><input type="checkbox" id="checkBox3"/><br/><br/>
-    <a href="javascript:void(0)" onclick="alert('定位标签273')">定位标签273   </a><input type="checkbox" id="checkBox4"/><br/><br/>
-    <a href="javascript:void(0)" onclick="alert('定位标签274')">定位标签274   </a><input type="checkbox" id="checkBox5"/>
+            <a href="javascript:void(0)" onclick="alert('手环3d85')" >
+                手环3d85
+            </a>
+            
+            <input id="checkBox1" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d86')">
+                手环3d86
+            </a>
+            <input id="checkBox2" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d87 ')">
+                手环3d87
+            </a>
+            <input id="checkBox3" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d88')">
+                手环3d88
+            </a>
+            <input id="checkBox4" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d89')">
+                手环3d89
+            </a>
+            <input id="checkBox5" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d8a')">
+                手环3d8a
+            </a>
+            <input id="checkBox6" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3d8b')">
+                手环3d8b
+            </a>
+            <input id="checkBox7" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3be8')">
+                手环3be8
+            </a>
+            <input id="checkBox8" type="checkbox"/>
+            <br/>
+            <br/>
+            <a href="javascript:void(0)" onclick="alert('手环3be9')">
+                手环3be9
+            </a>
+            <input id="checkBox9" type="checkbox"/>
+            <br/>
+            <br/>
 </div>
 
 <div style="position: absolute; left: 2%; top: 2%;">
@@ -33,11 +80,15 @@
 <div style="position: absolute; right: 1%; top: 94%;">
     <button class="btn btn-default" id="backmain">返回前端显示</button>
 </div>
-<div id="RailingInfo" style="position: absolute; right: 2%; top: 17%; display: none">
+<div id="RailingInfo" style="position: absolute; left: 32%; top: 2%; display: none">
 </div>
 
 <div class="operating2">
     <button class="btn btn-default" id="railingManage" style="display: block">电子围栏管理</button>
+            <button class="btn btn-default" id="showanchor">
+                基站显示
+            </button>
+            <button class="btn btn-default" id="toggleTheme">切换主题</button>
     <button class="btn btn-default" id="addRailing" style="display: block">添加电子围栏</button>
     <button class="btn btn-default" id="YesaddRailing" style="display: none">确定</button>
     <button class="btn btn-default" id="NoaddRailing" style="display: none">取消</button>
@@ -47,7 +98,7 @@
 <script src="lib/fengmap.min.js"></script>
 <script>
     //获取版本号,设置title
-    document.title = 'UWB室内定位V' + fengmap.VERSION;
+    document.title = '重庆精神病院管理系统' + fengmap.VERSION;
 
     //定义全局map变量
     var map;
@@ -67,10 +118,14 @@
     var webSocket2;
     var webSocket3;
     var webSocket4;
-
+    var webSocket5;
+    var webSocket6;
+    var webSocket7;
+    var webSocket8;
     //历史轨迹
     var mPoints = [];
     var isShown = false;
+    var anchorShown = true;
 
     //电子围栏
     var isAddingRailing = false;
@@ -83,7 +138,8 @@
     var railingDeleteId = [];
     var uploadPoints;
     var isRailingInfoShown = false;
-
+//定义主题切换变量
+    var toggleFlag = 1;
 
     $(function() {
         map = new fengmap.FMMap({
@@ -120,7 +176,12 @@
             //添加定位点标注，并设置定位点坐标为地图中心点
             map.rotateTo({
                 to: 0,           //设置角度
-                duration: .3,      //动画持续时间，默认为。3秒
+                duration: 10,      //动画持续时间，默认为。3秒
+            });
+            //添加定位点标注，并设置定位点坐标为地图中心点
+            map.tiltTo({
+                to: 90,           //设置角度
+                duration: 10,      //动画持续时间，默认为。3秒
             });
 
             //创建楼层(按钮型)，创建时请在地图加载后(loadComplete回调)创建。
@@ -202,7 +263,7 @@
 
         function initWebSocket (webSocketTemp,num) {
             webSocketTemp.onopen = function() {
-                window.alert('nihao');
+               // window.alert('nihao');
             };
             webSocketTemp.onmessage = function (event) {
                 var data = JSON.parse(event.data);
@@ -224,7 +285,7 @@
         function API_TOKEN () {
             $.ajax({
                 type: 'POST',
-                url: "http://track.ubitraq.com:8082/user/login",
+                url: "http://59.110.241.137:8082/user/login",
                 contentType: "application/json;charset=utf-8",
                 data: JSON.stringify({"loginCode": "jiankongzhineng", "loginPwd": "jiankongzhineng"}),
                 dataType: "text",
@@ -233,7 +294,7 @@
                     resultJSON = $.parseJSON(result.toString());
                     api_token = resultJSON.entity.api_token;
                     
-                    initSignalMarker();
+                    //initSignalMarker();
                     initRailing();
                 },
                 error: function (msg) {
@@ -246,7 +307,7 @@
             $.ajax({
                 type: 'GET',
                 headers: {"api_token": api_token},
-                url: "http://track.ubitraq.com:8082/project/anchor/list",
+                url: "http://track.ubitraq.com:8082/project/anchor/list?&mapId=10",
                 success: function (result) {
                     
                     for (var i = 0; i < result.length; i++) {
@@ -258,7 +319,7 @@
                             height: 0,
                         });
                         map.addLocationMarker(signalMarker);
-                        signalMarker.x = result[i].x/100 + map.minX;
+                        signalMarker.x = result[i].x/100 + map.minX+1;
                         signalMarker.y = map.maxY - result[i].y/100;
                     }
                 },
@@ -267,16 +328,40 @@
                 }
             });
         }
-
+   function removeSignalMarker() {
+            $.ajax({
+                type: 'GET',
+                headers: {"api_token": api_token},
+                url: "http://59.110.241.137:8082/project/anchor/list",
+                success: function (result) {
+                    
+                    for (var i = 0; i < result.length; i++) {
+                        var signalMarker;
+                     
+                        signalMarker.x = result[i].x/100 + map.minX;
+                        signalMarker.y = map.maxY - result[i].y/100;
+                        map.removeLocationMarker(signalMarker);
+                        
+                    }
+                },
+                error: function (msg) {
+                    window.alert(msg);
+                }
+            });
+        }
         function initLocationMarker() {
             mLocationMaker = [
-                new fengmap.FMLocationMarker({url: 'image/point2.png', size: 30, height: 0}),
-                new fengmap.FMLocationMarker({url: 'image/point2.png', size: 30, height: 0}),
-                new fengmap.FMLocationMarker({url: 'image/point2.png', size: 30, height: 0}),
-                new fengmap.FMLocationMarker({url: 'image/point2.png', size: 30, height: 0}),
-                new fengmap.FMLocationMarker({url: 'image/point2.png', size: 30, height: 0})
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                 new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0}),
+                new fengmap.FMLocationMarker({url: 'image/peopleMarker.png', size: 30, height: 0})
             ]
-            isAdded = [false,false,false,false,false];
+            isAdded = [false,false,false,false,false,false,false,false,false];
         }
         //创建定位点标注
         function addLocationMarker(coord) {
@@ -347,7 +432,7 @@
         $("#checkBox1").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket0 = new WebSocket("ws://track.ubitraq.com:8083/websocket/tag_00000255_2d" + stamp + api_token);
+                webSocket0 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d85_2d" + stamp + api_token);
                 initWebSocket(webSocket0,0);
                 if(isAdded[0] === false) {
                     map.addLocationMarker(mLocationMaker[0]);
@@ -362,7 +447,7 @@
         $("#checkBox2").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket1 = new WebSocket("ws://track.ubitraq.com:8083/websocket/tag_58010000_2d" + stamp + api_token);
+                webSocket1 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d86_2d" + stamp + api_token);
                 initWebSocket(webSocket1,1);
             } else {
                 webSocket1.close();
@@ -371,7 +456,7 @@
         $("#checkBox3").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket2 = new WebSocket("ws://track.ubitraq.com:8083/websocket/tag_72020000_2d" + stamp + api_token);
+                webSocket2 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d87_2d" + stamp + api_token);
                 initWebSocket(webSocket2,2);
             } else {
                 webSocket2.close();
@@ -380,7 +465,7 @@
         $("#checkBox4").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket3 = new WebSocket("ws://track.ubitraq.com:8083/websocket/tag_73020000_2d" + stamp + api_token);
+                webSocket3 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d88_2d" + stamp + api_token);
                 initWebSocket(webSocket3,3);
             } else {
                 webSocket3.close();
@@ -389,13 +474,67 @@
         $("#checkBox5").on('click',function() {
             if(this.checked) {
                 var stamp = new Date().getTime();
-                webSocket4 = new WebSocket("ws://track.ubitraq.com:8083/websocket/tag_74020000_2d" + stamp + api_token);
+                webSocket4 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d89_2d" + stamp + api_token);
                 initWebSocket(webSocket4,4);
             } else {
                 webSocket4.close();
             }
         });
+         $("#checkBox6").on('click',function() {
+            if(this.checked) {
+                var stamp = new Date().getTime();
+                webSocket5 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d8a_2d" + stamp + api_token);
+                initWebSocket(webSocket5,5);
+            } else {
+                webSocket5.close();
+            }
+        });
+           $("#checkBox7").on('click',function() {
+            if(this.checked) {
+                var stamp = new Date().getTime();
+                webSocket6 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d8b_2d" + stamp + api_token);
+                initWebSocket(webSocket6,6);
+            } else {
+                webSocket6.close();
+            }
+        });
+              $("#checkBox8").on('click',function() {
+            if(this.checked) {
+                var stamp = new Date().getTime();
+                webSocket7 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003be8_2d" + stamp + api_token);
+                initWebSocket(webSocket7,7);
+            } else {
+                webSocket7.close();
+            }
+        });
+              $("#checkBox9").on('click',function() {
+            if(this.checked) {
+                var stamp = new Date().getTime();
+                webSocket8 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003be9_2d" + stamp + api_token);
+                initWebSocket(webSocket8,8);
+            } else {
+                webSocket8.close();
+            }
+        });
+    $("#toggleTheme").on('click', function() {
+             
+                    if (!map)return;
+                    //修改主题属性
+                    if (toggleFlag==1) {
+                        map.themeName = 'qianya';
+                        toggleFlag = 2;
+                    } 
+                    else if(toggleFlag==2) {
+                        map.themeName = '2001';
+                        toggleFlag = 3;
+                    }
+                    else
+                    {
+                         map.themeName = '2002';
+                        toggleFlag = 1;
+                    }
 
+               });
         //绘制线图层
         function drawLines(results) {
             //绘制部分
@@ -424,16 +563,16 @@
             var myDate = new Date();
             var time = "&start=" + myDate.getFullYear() + "-" + (myDate.getMonth()) + "-" + myDate.getDate() + "%20" + (myDate.getHours()-4) + ":" + (myDate.getMinutes()) + ":" + myDate.getSeconds() + "&end=" + myDate.getFullYear() + "-" + (myDate.getMonth()+1) + "-" + myDate.getDate() + "%20" + (myDate.getHours()) + ":" + (myDate.getMinutes()) + ":" + myDate.getSeconds();
 
-            console.log(1,"http://track.ubitraq.com:8082/history/list?&mapId=5&tagCodes=" + "00000255" + time);
+            console.log(1,"http://59.110.241.137:8082/history/list?&mapId=10&tagCodes=" + "00000255" + time);
             if (document.getElementById("checkBox1").checked) {
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
 
-                    url: "http://track.ubitraq.com:8082/history/list?&mapId=5&tagCodes=" + "00000255" + time,
+                    url: "http://59.110.241.137:8082/history/list?&mapId=10&tagCodes=" + "00000255" + time,
                     success: function (result) {
                         var poe=result.datas;
-                        window.alert(poe);
+                        //window.alert(poe);
                         var pathlength = poe["00000255"].paths.length;
                         for (var i = 0; i < pathlength; i++) {
                             var tempLocation = {
@@ -454,7 +593,7 @@
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
-                    url: "http://track.ubitraq.com:8082/history/list?mapId=10&tagMacs%5B%5D=" + "58010000" + time,
+                    url: "http://59.110.241.137:8082/history/list?mapId=10&tagMacs%5B%5D=" + "58010000" + time,
                     success: function (result) {
                         //window.alert(result.toString());
                         var pathlength = result["101"].paths.length;
@@ -477,7 +616,7 @@
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
-                    url: "http://track.ubitraq.com:8082/history/list?mapId=10&tagMacs%5B%5D=" + "72020000" + time,
+                    url: "http://59.110.241.137:8082/history/list?mapId=10&tagMacs%5B%5D=" + "72020000" + time,
                     success: function (result) {
                         //window.alert(result.toString());
                         var pathlength = result["596"].paths.length;
@@ -500,7 +639,7 @@
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
-                    url: "http://track.ubitraq.com:8082/history/list?mapId=10&tagMacs%5B%5D=" + "73020000" + time,
+                    url: "http://59.110.241.137:8082/history/list?mapId=10&tagMacs%5B%5D=" + "73020000" + time,
                     success: function (result) {
                         //window.alert(result.toString());
                         var pathlength = result["597"].paths.length;
@@ -523,7 +662,7 @@
                 $.ajax({
                     type: 'GET',
                     headers: {"api_token": api_token},
-                    url: "http://track.ubitraq.com:8082/history/list?mapId=10&tagMacs%5B%5D=" + "74020000" + time,
+                    url: "http://59.110.241.137:8082/history/list?mapId=10&tagMacs%5B%5D=" + "74020000" + time,
                     success: function (result) {
                         //window.alert(result.toString());
                         var pathlength = result["585"].paths.length;
@@ -567,14 +706,34 @@
             window.location.href='../../map/map2d/svg/';
            
         });
+         $("#showanchor").on('click', function() {
+            if(anchorShown)
+            {
+                    initSignalMarker();
+                       console.log('initSignalMarker');
+                  document.getElementById("showanchor").style.outline = 'none';
+                document.getElementById("showanchor").style.boxShadow = 'none';
+                anchorShown = false;
+            }
+            else
+            {
+                console.log('removeSignalMarker');
+                removeSignalMarker();
+                document.getElementById("showanchor").style.outline = 'block';
+                document.getElementById("showanchor").style.boxShadow = 'block';
+                anchorShown = true;
+            }
+            
+           
+        });
         function initRailing() {
 
             $.ajax({
                 type: 'GET',
                 headers: {"api_token": api_token},
-                url: "http://track.ubitraq.com:8082/fence/list?mapId=5",
+                url: "http://59.110.241.137:8082/fence/list?mapId=10",
                 success: function (result) {
-                    window.alert(result.length);
+                    //window.alert(result.length);
                     for(var i=0; i<result.length; i++) {
 
                         var pointArr = result[i].points.split(",");
@@ -714,6 +873,7 @@
 
                     document.getElementById("btn"+railingId[num]).onclick = function () {
                         var mydiv = document.getElementById("RailingInfo");
+						mydiv.removeChild(document.getElementById(railingId[num]).nextSibling);
                         mydiv.removeChild(document.getElementById(railingId[num]));
                         mydiv.removeChild(document.getElementById("btn"+railingId[num]));
                     }
@@ -753,7 +913,7 @@
                         $.ajax({
                             type: 'POST',
                             headers: {"api_token": api_token},
-                            url: "http://track.ubitraq.com:8082/fence/add",
+                            url: "http://59.110.241.137:8082/fence/add",
                             data: JSON.stringify({"cname": railingName, "points": uploadPoints, "ftypeId": 2, "mapId": 4}),
                             contentType: "application/json; charset=utf-8",
                             success: function (result) {
