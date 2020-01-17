@@ -749,7 +749,7 @@
 													<div class="moreMonitor_all_box" :class="{ boxactive: moreMonitor.boxisActive }">
 														<div class="moreMonitor_all_options">
 															<el-checkbox-group v-model="moreMonitor.macs">
-																<el-checkbox v-for="item in moreMonitor.allTagsData" :label="item.mac" :key='item.mac'>{{item.mac}}</el-checkbox>
+																<el-checkbox v-for="item in moreMonitor.allTagsData" :label="item.mac" :key='item.mac'>{{item.alias}}</el-checkbox>
 															</el-checkbox-group>
 														</div>
 													</div> 

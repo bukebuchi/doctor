@@ -19,14 +19,11 @@
         <div id="fengMap">
         </div>
         <!--操作按钮-->
-        <!-- <div class="operating">
-            <button class="btn btn-default" id="showHistoricalTrace">
-                添加历史轨迹
-            </button>
-            <button class="btn btn-default" id="deleteHistoricalTrace">
-                删除历史轨迹
-            </button>
-        </div> -->
+       
+        
+
+
+        
         <div id="tagsInfo" style="position: absolute; left: 2%; top: 10%; display: none">
             <a href="javascript:void(0)" onclick="alert('手环3d85')">
                 手环3d85
@@ -93,7 +90,12 @@
                 返回前端显示
             </button>
         </div>
-        <!-- <div style="position: absolute; left: 32%; top: 2%;">
+<div style="position: absolute; left: 32%; top: 2%;">
+
+            <button class="btn btn-default" id="showRandomHeatmap">显示随机热力图</button>
+    <button class="btn btn-default" id="showDtataHeatmap"">显示数据热力图</button>
+        </div>
+         <!-- <div style="position: absolute; left: 32%; top: 2%;">
             
         </div> -->
         <div id="RailingInfo" style="position: absolute; right: 2%; top: 17%; display: none">
@@ -116,10 +118,14 @@
                 取消
             </button>
         </div>
+        <!-- 按钮组 -->
+
         <script src="lib/jquery-2.1.4.min.js">
         </script>
         <script src="lib/fengmap.min.js">
+
         </script>
+        <script src="js/data2.js"></script>
         <script>
             //获取版本号,设置title
     document.title = '重庆精神病院管理系统' + fengmap.VERSION;
@@ -127,6 +133,15 @@
     //定义全局map变量
     var map;
     var fmapID = 'qianya';
+
+    //热力图实例
+    var heatmapInstance = null;
+    //随机热力图
+    var randomHeatmap = false;
+    //数据热力图
+    var dataHeatmap = false;
+    //楼层变量
+    var groupLayer;
     var count = 0;
     var locationMarker = null;
     var defaultGroupID = 1;
@@ -367,6 +382,79 @@
             });
         }
 
+        /**
+     
+    /**
+     * 随机添加热力图方法
+     * */
+    function createRandomHeatmap(map, groupID) {
+        //创建热力图对象
+        if (!heatmapInstance) {
+            heatmapInstance = fengmap.FMHeatMap.create(map, {
+                //热点半径
+                radius: 20,
+                //热力图透明度
+                opacity: .5,
+                //热力点value的最大值
+                max: 100
+            });
+        }
+        console.log('nihao');
+        //随机增加热点
+        heatmapInstance.randomPoints(200);
+
+        //将热力图应用到楼层
+        groupLayer = map.getFMGroup(groupID);
+        groupLayer.applyHeatMap(heatmapInstance);
+    }
+
+
+    /**
+     * 创建数据热力图
+     * */
+    function createDataHeatmap(map, groupID, data) {
+        // 创建热力图对象
+        if (!heatmapInstance) {
+            heatmapInstance = fengmap.FMHeatMap.create(map, {
+                //热点半径
+                radius: 20,
+                //热力图透明度
+                opacity: .5,
+                //热力点value的最大值
+                max: 100,
+                //渐变色值，可配置
+                gradient: {
+                    0.45: "rgb(201,135,255)",
+                    0.55: "rgb(189,97,255)",
+                    0.65: "rgb(155,49,255)",
+                    0.95: "yellow",
+                    1.0: "rgb(157,53,255)"
+                }
+            });
+        }
+
+        //清除热力图的所有热力点
+        heatmapInstance.clearPoints();
+        //批量增加热点
+        heatmapInstance.addPoints(data);
+        //增加一个热点
+        //heatmapInstance.addPoint(12961625.166912202, 4861878.46667244, 50);
+
+        //热力图应用到哪一楼层
+        groupLayer = map.getFMGroup(groupID);
+        groupLayer.applyHeatMap(heatmapInstance);
+    }
+
+    /**
+     * 移除热力图
+     * */
+    function removeHeatmap() {
+        //获取显示楼层
+        groupLayer = map.getFMGroup(map.focusGroupID);
+        //移除应用热力图
+        groupLayer.removeHeatMap(heatmapInstance);
+    }
+
         function initSignalMarker() {
             $.ajax({
                 type: 'GET',
@@ -500,12 +588,12 @@
                 var stamp = new Date().getTime();
                 webSocket0 = new WebSocket("ws://59.110.241.137:8083/websocket/tag_00003d85_2d" + stamp + api_token);
                 initWebSocket(webSocket0,0);
-                if(isAdded[0] === false) {
-                    map.addLocationMarker(mLocationMaker[0]);
-                    isAdded[0] = true;
-                }
-                mLocationMaker[0].x = map.center.x;
-                mLocationMaker[0].y = map.center.y;
+                // if(isAdded[0] === false) {
+                //     map.addLocationMarker(mLocationMaker[0]);
+                //     isAdded[0] = true;
+                // }
+                // mLocationMaker[0].x = map.center.x;
+                // mLocationMaker[0].y = map.center.y;
             } else {
                 webSocket0.close();
             }
@@ -770,6 +858,41 @@
         });
         $("#backmain").on('click', function() {
             window.location.href='../../map/map2d/svg/';
+           
+        });
+
+
+         $("#showRandomHeatmap").on('click', function() {
+            //更改随机热力图显示状态
+        randomHeatmap = !randomHeatmap;
+        if (randomHeatmap) {
+            //添加随机热力图
+            createRandomHeatmap(map, map.focusGroupID);
+            //更改数据热力图显示状态
+            dataHeatmap = false;
+        } else {
+            //移除热力图
+            removeHeatmap();
+        }
+
+
+           
+        });
+
+         $("#showDtataHeatmap").on('click', function() {
+        //更改数据热力图显示状态
+        dataHeatmap = !dataHeatmap;
+        if (dataHeatmap) {
+            //创建数据热力图
+            createDataHeatmap(map, map.focusGroupID, heatMapData);
+            //更改随机热力图显示状态
+            randomHeatmap = false;
+        } else {
+            //移除热力图
+            removeHeatmap();
+        }
+
+
            
         });
          $("#showanchor").on('click', function() {

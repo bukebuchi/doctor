@@ -76,9 +76,11 @@ var SysAlert = {
             var tag = ME.vm.getTag(data);
             data.alias = tag ? (tag.alias ? tag.alias : tag.code) : data.code;
             ME[type][data.code] = data;
+            console.log(tag);
             var forceRemove = new Object();
             forceRemove.data=data;              
             forceRemove.type=type;
+            forceRemove.catId=tag.catId;
             var test=JSON.stringify(forceRemove);       
             ME.test.send(test);
             SysAlert.notification(type, data);
@@ -95,7 +97,7 @@ var SysAlert = {
         // ME.vm.updateFenceInnerTags(data.isIn, tag, fence);
         if (!DataManager.isFenceTip(fence, data.isIn)) return;
         if (ME.vm.switchData.sound) {
-            var audio = 'warning.mp3';
+            //var audio = 'warning.mp3';
             if(fence.ftypeId=='1')
             {
                 audio = 'danger33.mp3';
@@ -166,9 +168,9 @@ var SysAlert = {
                     // console.log("告警,进入3秒未出")
                     data.temp = true;
                var objalert = new Object();
-objalert.code=data.code;
-objalert.alias= data.alias;
-objalert.ftypeId=data.fence.ftypeId;
+                objalert.code=data.code;
+                objalert.alias= data.alias;
+                objalert.ftypeId=data.fence.ftypeId;
                     if(fence.ftypeId=="100")
                     {
                     audio = 'stillnessshower.mp3'; 
@@ -192,7 +194,7 @@ objalert.ftypeId=data.fence.ftypeId;
        ME.test.send(testalert);
             
                     SysAlert.notification('fenceAlert', data);
-                }, 30000)
+                }, 1200000)
             } else {
                 clearInterval(intervalId);
                 intervalId = null;

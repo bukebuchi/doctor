@@ -272,7 +272,7 @@
                     if(!isAdded[num]) {
                         map.addLocationMarker(mLocationMaker[num])
                     }
-                    mLocationMaker[num].x = data.x/100+map.minX;
+                    mLocationMaker[num].x = data.x/100+map.minX+1;
                     mLocationMaker[num].y = map.maxY-data.y/100;
                 }
             };
